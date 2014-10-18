@@ -7,6 +7,7 @@ class WordProblemTest < MiniTest::Unit::TestCase
   end
 
   def test_add_2
+    skip
     assert_equal 55, WordProblem.new('What is 53 plus 2?').answer
   end
 

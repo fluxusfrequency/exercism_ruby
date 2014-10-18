@@ -2,12 +2,11 @@
 
 Implement the classic method for composing secret messages called a square code.
 
-The input is first normalized: The spaces and punctuation are removed from the
-English text and the message is downcased.
+The input is first normalized: The spaces and punctuation are removed
+from the English text and the message is downcased.
 
-Then, the normalized characters are broken into rows.
-These rows can be regarded as forming a rectangle
-when printed with intervening newlines.
+Then, the normalized characters are broken into rows.  These rows can be
+regarded as forming a rectangle when printed with intervening newlines.
 
 For example, the sentence
 
@@ -29,40 +28,44 @@ vegivenu
 sroots
 ```
 
-The coded message is obtained by reading down the columns going left to right.
+The coded message is obtained by reading down the columns going left to
+right.
 
 For example, the message above is coded as:
 
 ```plain
-imtgd vsfea rwerm ayoog
-oanou uiont nnlvt wttdd
-esaoh ghnss eoau
+imtgdvs fearwer mayoogo
+anouuio ntnnlvt wttddes
+aohghn  sseoau
 ```
 
-Write a program that, given an English text, outputs the encoded version of
-that text.
+Write a program that, given an English text, outputs the encoded version
+of that text.
 
-The size of the square (number of columns) should be decided by the length of the message.
+The size of the square (number of columns) should be decided by the
+length of the message.
 
-If the message is a length that creates a perfect square (e.g. 4, 9, 16, 25,
-36, etc), use that number of columns.
+If the message is a length that creates a perfect square (e.g. 4, 9, 16,
+25, 36, etc), use that number of columns.
 
-If the message doesn't fit neatly into a square, choose the number of columns
-that corresponds to the smallest square that is larger than the number of
-characters in the message.
+If the message doesn't fit neatly into a square, choose the number of
+columns that corresponds to the smallest square that is larger than the
+number of characters in the message.
 
-For example, a message 4 characters long should use a 2 x 2 square. A message
-that is 81 characters long would use a square that is 9 colums wide.
+For example, a message 4 characters long should use a 2 x 2 square. A
+message that is 81 characters long would use a square that is 9 colums
+wide.
 
-A message between 5 and 8 characters long should use a rectangle 3 characters wide.
+A message between 5 and 8 characters long should use a rectangle 3
+characters wide.
 
-Output the encoded text in groups of five letters.
+Output the encoded text grouped by column.
 
 For example:
 
 - "Have a nice day. Feed the dog & chill out!"
   - Normalizes to: "haveanicedayfeedthedogchillout"
-  - Which has length: 36
+  - Which has length: 30
   - And splits into 5 6-character rows:
     - "havean"
     - "iceday"

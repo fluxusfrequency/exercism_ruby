@@ -1,44 +1,82 @@
-class Element
-  attr_accessor :datum, :link
+class Deque
+  attr_accessor :head
 
-  def initialize(datum, link)
-    @datum = datum
-    @link = link
-  end
-
-  def next
-    link
-  end
-
-  def reverse
-    if link
-      Element.new(link.datum, self)
+  def push(datum)
+    if head.nil?
+      @head = Element.new(datum, nil, nil)
     else
-      Element.new(datum, nil)
+      fast_forward
+      before = head
+      @head = Element.new(datum, before, nil)
+      @head.before.after = head
     end
   end
 
-  def self.to_a(node)
-    return [] unless node
+  def pop
+    fast_forward
+    datum = head.datum
 
-    node_datum = Array(node.datum)
-    node_datum += Element.to_a(node.link) if node.link
-    node_datum
-  end
-
-  def to_a
-    Element.to_a(self)
-  end
-
-  def self.from_a(array)
-    data = array.to_a
-    return nil if data.empty?
-
-    results = []
-    data.reverse.each_with_index do |element, i|
-      results[i] = Element.new(element, results[i - 1])
+    if head.after == head && head.before == head
+      @head = nil
+    else
+      @head = head.before
+      @head.before.after = head
     end
-    results.last
+
+    datum
+  end
+
+  def unshift(datum)
+    if head.nil?
+      @head = Element.new(datum, nil, nil)
+    else
+      rewind
+      after = head
+      @head = Element.new(datum, nil, after)
+      @head.after.before = head
+    end
+  end
+
+  def shift
+    rewind
+    datum = head.datum
+
+    if head.after == head && head.before == head
+      @head = nil
+    else
+      @head = head.after
+      @head.before = head
+      @head.after.before = head
+    end
+
+    datum
+  end
+
+  private
+
+  def rewind
+    if head.before != head
+      @head = head.before
+      rewind
+    end
+  end
+
+  def fast_forward
+    if head.after != head
+      @head = head.after
+      fast_forward
+    end
+  end
+
+end
+
+class Element
+  attr_accessor :datum, :before, :after
+
+  def initialize(datum, before, after)
+    @datum = datum
+    @before = before || self
+    @after = after || self
   end
 
 end

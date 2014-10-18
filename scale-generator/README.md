@@ -1,3 +1,7 @@
+# Scale Generator
+
+Write a program that can generate musical scales, given a starting note and a set of intervals. 
+
 Write a program that can generate musical scales. It should accept
 a tonic, or starting note, and a set of intervals. It should be able to
 output the notes in the given scale, starting with the tonic and
@@ -62,3 +66,9 @@ Here is a table of pitches with the names of their interval distance from the to
  Dim 5th | Aug 5th | Dim 7th | Aug 6th | Dim 8ve |        |
 
 
+
+
+
+## Source
+
+ [view source]()
