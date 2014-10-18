@@ -1,0 +1,36 @@
+class PrimeFactors
+
+  def self.for(number)
+    factors = find_factors(number)
+    check_factors(factors, number)
+  end
+
+  def self.check_factors(factors, number)
+    if all_factors_found?(factors, number)
+      return factors
+    else
+      factors += find_factors(number)
+      check_factors(factors, number)
+    end
+  end
+
+  private
+
+  def self.find_factors(number)
+    factors = primes.select do |prime|
+      number % prime == 0
+    end
+  end
+
+  def self.all_factors_found?(factors, number)
+    divided_result = factors.inject(number) do |number, f|
+      number / f
+    end
+    divided_result == 1
+  end
+
+  def self.primes
+    [2, 3, 5, 7, 11, 13, 17, 23, 461, 9539, 894119]
+  end
+
+end
