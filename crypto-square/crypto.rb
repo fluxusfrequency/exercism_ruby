@@ -1,6 +1,4 @@
 class Crypto
-  attr_reader :message
-
   def initialize(message)
     @message = message
   end
@@ -18,11 +16,9 @@ class Crypto
   end
 
   def ciphertext
-    coll = []
-    plaintext_segments.first.length.times do |i|
-      coll << plaintext_segments.map{|s| s[i]}
-    end
-    coll.join
+    size.times.map do |i|
+      plaintext_segments.map { |s| s[i] }
+    end.join
   end
 
   def normalize_ciphertext
@@ -31,7 +27,9 @@ class Crypto
 
   private
 
+  attr_reader :message
+
   def segment(text, length)
-    text.chars.each_slice(length).map{|slice| slice.join}.to_a
+    text.chars.each_slice(length).map(&:join).to_a
   end
 end
