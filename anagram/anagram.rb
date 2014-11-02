@@ -1,28 +1,38 @@
 class Anagram
-  attr_reader :word
-
   def initialize(word)
-    @word = word
+    @word = Word.new(word)
   end
 
-  def match(collection)
-    collection.select do |candidate|
-       not_same_word(word, candidate) && letters_match(word, candidate)
+  def match(candidates)
+    candidates.select do |candidate|
+      other = Word.new(candidate)
+      word != other && word.anagram_of?(other)
     end
   end
 
   private
 
-  def not_same_word(word, candidate)
-    word.downcase != candidate.downcase
+  attr_reader :word
+end
+
+class Word
+  def initialize(word)
+    @word = word
   end
 
-  def letters_match(original, candidate)
-    split_word(original).sort == split_word(candidate).sort
+  def ==(other)
+    word.downcase == other.word.downcase
   end
 
-  def split_word(word)
-    word.downcase.chars
+  def anagram_of?(other)
+    sanitized_chars == other.sanitized_chars
   end
 
+  protected
+
+  attr_reader :word
+
+  def sanitized_chars
+    word.downcase.chars.sort
+  end
 end
