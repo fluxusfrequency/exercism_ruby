@@ -1,17 +1,10 @@
-class Gigasecond
-  ONE_GIGASECOND = 1_000_000_000
-  SECONDS_IN_A_DAY = 24 * 60 * 60
+module Gigasecond
+  # One gigasecond = 1,000,000,000 seconds
+  # One day = 24 hrs * 60 min * 60 sec = 86400
+  # One gigasecond / one day = 11574
+  GIGASECONDS_IN_A_DAY = 11574
 
-  def initialize(date)
-    @birthday = date
+  def self.from(birthday)
+    birthday + Rational(GIGASECONDS_IN_A_DAY)
   end
-
-  def date
-    @birthday += Rational(gigaseconds_per_day.to_s)
-  end
-
-  def gigaseconds_per_day
-    @result ||= ONE_GIGASECOND / SECONDS_IN_A_DAY
-  end
-
 end

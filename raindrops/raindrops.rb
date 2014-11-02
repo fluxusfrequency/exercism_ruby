@@ -1,27 +1,44 @@
 class Integer
-  def factor?(n)
-    self % n == 0
+  def divisible_by?(other)
+    self % other == 0
   end
 end
 
-module Raindrops
-  module_function
+class Raindrops
 
-  TRANSLATIONS = { 'Pling' => 3, 'Plang' => 5, 'Plong' => 7 }
+  TRANSLATIONS = {
+    3 => 'Pling',
+    5 => 'Plang',
+    7 => 'Plong'
+  }
 
-  def sing(n)
-    TRANSLATIONS.keys.select do |word|
-      n.factor?(TRANSLATIONS[word])
+  def self.convert(number)
+    new(number).convert
+  end
+
+  def initialize(number)
+    @number = number
+  end
+
+  def convert
+    if knows_song?
+      song
+    else
+      number.to_s
     end
   end
 
-  def convert(n)
-    return n.to_s unless knows_song?(n)
-    sing(n).join
+  private
+
+  attr_reader :number
+
+  def song
+    @song ||= TRANSLATIONS.select { |factor, translation|
+      number.divisible_by?(factor)
+    }.values.join
   end
 
-  def knows_song?(n)
-    TRANSLATIONS.values.any? { |raindrop| n.factor?(raindrop) }
+  def knows_song?
+    !song.empty?
   end
-
 end

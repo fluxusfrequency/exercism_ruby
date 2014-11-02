@@ -1,36 +1,58 @@
-class Bob
-  def hey(input)
-    phrase = Phrase.new(input)
-    return 'Woah, chill out!' if phrase.yelling?
-    return 'Sure.' if phrase.question?
-    return 'Fine. Be that way!' if phrase.silence?
-    return 'Whatever.'
-  end
+module Teenager
+  module Vocabulary
+    CANNED_RESPONSE = 'Whatever.'
 
+    REACTIONS = {
+      yelling: 'Whoa, chill out!',
+      question: 'Sure.',
+      silence: 'Fine. Be that way!'
+    }
+
+    def respond_to(phrase)
+      REACTIONS[phrase.type] or CANNED_RESPONSE
+    end
+  end
 end
 
 class Phrase
-  def initialize(phrase)
-    @phrase = phrase.strip
+  TYPES = [:yelling, :question, :silence]
+
+  def initialize(raw_phrase)
+    @phrase = raw_phrase.strip
   end
 
   def question?
-    @phrase.end_with?('?')
+    phrase.end_with?('?')
   end
 
   def yelling?
-    words? && @phrase.upcase == @phrase
+    words? && phrase.upcase == phrase
   end
 
   def silence?
-    @phrase.empty?
+    phrase.empty?
+  end
+
+  def type
+    TYPES.find {|type| self.public_send("#{type}?") }
   end
 
   private
 
-  def words?
-    @phrase.match(/[a-zA-Z]+/)
-  end
+  attr_reader :phrase
 
+  def words?
+    phrase.match(/[a-zA-Z]+/)
+  end
 end
+
+class Bob
+  include Teenager::Vocabulary
+
+  def hey(provocation)
+    phrase = Phrase.new(provocation)
+    respond_to(phrase)
+  end
+end
+
 
