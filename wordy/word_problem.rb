@@ -20,17 +20,9 @@ class WordProblem
   end
 
   def answer
-    numbers.drop(1).reduce(numbers.first) do |a,b|
-      a.public_send(operators.shift, b)
+    numbers_after_first.reduce(first_number) do |sum, operand|
+      sum.public_send(operators.shift, operand)
     end
-  end
-
-  def operators
-    @operators ||= question.scan(/#{operator_test}/).map(&:to_sym)
-  end
-
-  def numbers
-    question.scan(/-?\d+/).map(&:to_i)
   end
 
   private
@@ -43,6 +35,22 @@ class WordProblem
 
   def validate_numbers
     raise ArgumentError if numbers.empty?
+  end
+
+  def first_number
+    numbers.first
+  end
+
+  def numbers_after_first
+    numbers.drop(1)
+  end
+
+  def numbers
+    question.scan(/-?\d+/).map(&:to_i)
+  end
+
+  def operators
+    @operators ||= question.scan(/#{operator_test}/).map(&:to_sym)
   end
 
   def operator_test
