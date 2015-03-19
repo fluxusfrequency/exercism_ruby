@@ -1,20 +1,21 @@
 class Complement
-  COMPLEMENTS = {
-      "C" => "G",
-      "G" => "C",
-      "T" => "A",
-      "A" => "U" }
+  @nucleotide_lookup = { 'G' => 'C', 'C' => 'G', 'T' => 'A', 'A' => 'U' }
 
-  def self.of_dna(strand)
-    strand.chars.map do |n|
-      COMPLEMENTS[n]
-    end.join
+  def self.of_dna(sequence)
+    rna_complement = ''
+
+    sequence.chars.each do |nucleotide|
+      rna_complement << @nucleotide_lookup[nucleotide].to_s
+    end
+    rna_complement
   end
 
-  def self.of_rna(strand)
-    strand.chars.map do |n|
-      COMPLEMENTS.key(n)
-    end.join
-  end
+  def self.of_rna(sequence)
+    dna_complement = ''
 
+    sequence.chars.each do |nucleotide|
+      dna_complement << @nucleotide_lookup.key(nucleotide).to_s
+    end
+    dna_complement
+  end
 end
