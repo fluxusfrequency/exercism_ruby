@@ -42,4 +42,3 @@ module Translation
     end
   end
 end
-
